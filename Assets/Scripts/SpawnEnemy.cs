@@ -1,19 +1,19 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnEnemy : MonoBehaviour
 {
-    [SerializeField] private GameObject _enemy;
+    [SerializeField] private Rigidbody _enemy;
 
     private List<GameObject> _spawns = new List<GameObject>();
-    private List<GameObject> _soldiers = new List<GameObject>();
+    private List<Rigidbody> _soldiers = new List<Rigidbody>();
 
     private int _currentSpawn;
 
-    private float _currentTime;
     private float _timeSpawn = 2f;
 
-    public List<GameObject> Soldiers => _soldiers;
+    public List<Rigidbody> CreatedSoldiers => _soldiers;
 
     private void Awake()
     {
@@ -23,11 +23,16 @@ public class SpawnEnemy : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void Start()
     {
-        _currentTime += Time.deltaTime;
+        StartCoroutine(CreateSoldier());
+    }
 
-        if(_currentTime >= _timeSpawn)
+    private IEnumerator CreateSoldier()
+    {
+        WaitForSeconds waitTimeSpawn = new(_timeSpawn);
+
+        while (true)
         {
             _currentSpawn = Random.Range(0, _spawns.Count);
 
@@ -35,7 +40,7 @@ public class SpawnEnemy : MonoBehaviour
 
             _soldiers.Add(soldier);
 
-            _currentTime = 0;
+            yield return waitTimeSpawn;
         }
     }
 }

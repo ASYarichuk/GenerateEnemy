@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Move : MonoBehaviour
+public class Mover : MonoBehaviour
 {
     [SerializeField] private SpawnEnemy _spawnEnemy;
 
@@ -21,9 +21,9 @@ public class Move : MonoBehaviour
             }
         }
 
-        if (_spawnEnemy.Soldiers != null)
+        if (_spawnEnemy.CreatedSoldiers != null)
         {
-            foreach (GameObject soldier in _spawnEnemy.Soldiers)
+            foreach (Rigidbody soldier in _spawnEnemy.CreatedSoldiers)
             {
                soldier.transform.position = Vector3.Lerp(soldier.transform.position, _targetPosition, _speed * Time.deltaTime);
             }
